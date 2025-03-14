@@ -1,12 +1,9 @@
 name: Publish .NET library to NuGet and GitHub Packages
 on:
-  workflow_dispatch:
   workflow_call:
     secrets:
       NUGET_API_KEY:
         required: true
-  pull_request:
-  merge_group:
 
 permissions:
   packages: write

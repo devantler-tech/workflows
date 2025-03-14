@@ -1,13 +1,10 @@
 name: Readme Tree
 
 on:
-  workflow_dispatch:
   workflow_call:
     secrets:
       APP_PRIVATE_KEY:
         required: true
-  pull_request:
-  merge_group:
 
 permissions:
   contents: write

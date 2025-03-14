@@ -1,13 +1,10 @@
 name: GitOps Test
 
 on:
-  workflow_dispatch:
   workflow_call:
     secrets:
       KSAIL_SOPS_KEY:
         required: false
-  pull_request:
-  merge_group:
 
 jobs:
   test:

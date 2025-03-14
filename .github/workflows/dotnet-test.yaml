@@ -1,14 +1,9 @@
 name: Test .NET solution or project
 on:
-  workflow_dispatch:
   workflow_call:
     secrets:
-      NUGET_API_KEY:
-        required: true
       CODECOV_TOKEN:
         required: true
-  pull_request:
-  merge_group:
 
 jobs:
   test:

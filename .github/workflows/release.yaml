@@ -1,12 +1,9 @@
 name: Release
 on:
-  workflow_dispatch:
   workflow_call:
     secrets:
       APP_PRIVATE_KEY:
         required: true
-  pull_request:
-  merge_group:
 
 jobs:
   release:
