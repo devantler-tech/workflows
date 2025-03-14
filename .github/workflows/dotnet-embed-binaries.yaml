@@ -30,7 +30,7 @@ on:
 permissions: {}
 
 jobs:
-  download-binary:
+  embed-binaries:
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App Token
