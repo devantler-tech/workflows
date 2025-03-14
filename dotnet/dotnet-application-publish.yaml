@@ -1,0 +1,18 @@
+name: Publish .NET Application to GitHub Releases and Homebrew Taps
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      NUGET_API_KEY:
+        required: true
+  pull_request:
+  merge_group:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 📑 Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: true

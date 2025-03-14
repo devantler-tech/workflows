@@ -1,0 +1,27 @@
+name: "TODOs"
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+  pull_request:
+  merge_group:
+
+jobs:
+  create-issues-from-todos:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v4"
+      - name: Generate GitHub App Token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: "alstr/todo-to-issue-action@v5"
+        env:
+          AUTO_ASSIGN: true
+          CLOSE_ISSUES: true
+          PROJECT: organization/devantler-tech/5
+          PROJECTS_SECRET: ${{ steps.app-token.outputs.token }}

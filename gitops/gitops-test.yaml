@@ -1,0 +1,34 @@
+name: GitOps Test
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      KSAIL_SOPS_KEY:
+        required: false
+  pull_request:
+  merge_group:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📑 Checkout
+        uses: actions/checkout@v4
+      - name: ⤵️ Install KSail
+        run: |
+          version=$(curl -s https://api.github.com/repos/devantler-tech/ksail/releases/latest | jq -r .tag_name)
+          curl -L -o ksail https://github.com/devantler-tech/ksail/releases/download/$version/ksail-linux-amd64
+          chmod +x ksail
+          sudo mv ksail /usr/local/bin/ksail
+      - name: 🔑 Import Age key
+        env:
+          KSAIL_SOPS_KEY: ${{ secrets.KSAIL_SOPS_KEY }}
+        if: ${{ env.KSAIL_SOPS_KEY != '' }}
+        run: ksail secrets import "${{ secrets.KSAIL_SOPS_KEY }}"
+      - name: 🛥️🐳 Provision cluster
+        run: |
+          ksail up
+      - name: 🔥 Teardown cluster
+        if: always()
+        run: ksail down

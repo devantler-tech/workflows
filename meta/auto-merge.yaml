@@ -1,0 +1,26 @@
+name: Auto-merge
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+  merge_group:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' || github.actor == 'botantler-tech[bot]'
+    steps:
+      - name: 📑 Checkout
+        uses: actions/checkout@v4
+      - name: ✅ Approve pull request
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: 🤖 Enable auto-merge
+        run: gh pr merge --auto --squash ${{ github.event.number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

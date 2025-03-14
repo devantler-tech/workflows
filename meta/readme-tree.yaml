@@ -1,0 +1,55 @@
+name: Readme Tree
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+  pull_request:
+  merge_group:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tree:
+    runs-on: ubuntu-latest
+    name: readme-tree
+    steps:
+      - name: Generate GitHub App Token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+      - name: Create README Tree
+        uses: RavelloH/readme-tree@v1.1.0
+        with:
+          showdirectoryname: "yes"
+      - name: Create Pull Request
+        id: create-pull-request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: update-readme-tree
+          title: "chore: Update README Tree"
+          commit-message: "chore: Update README Tree"
+          body: This PR updates the README Tree.
+          assignees: devantler
+          signoff: true
+          sign-commits: true
+          delete-branch: true
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Auto Approve Pull Request
+        uses: hmarr/auto-approve-action@v4
+        if: steps.create-pull-request.outputs.pull-request-operation != 'none'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
+      - name: Enable Pull Request Automerge
+        if: steps.create-pull-request.outputs.pull-request-operation != 'none'
+        run: gh pr merge --auto --squash ${{ steps.create-pull-request.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
