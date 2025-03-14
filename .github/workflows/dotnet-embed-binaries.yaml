@@ -1,4 +1,4 @@
-name: Assets
+name: Embed binaries in .NET projects
 
 on:
   workflow_call:
