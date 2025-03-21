@@ -15,6 +15,10 @@ on:
         type: string
         required: true
         description: The name of the binary to download
+      VERSION_ARGS:
+        type: string
+        required: true
+        description: The arguments to pass to the binary to get the version
     secrets:
       APP_PRIVATE_KEY:
         required: true
@@ -53,7 +57,7 @@ jobs:
         run: ${{ inputs.SCRIPT_PATH }}
       - name: 🎯 Get version
         run: |
-          BINARY_VERSION=$(./src/${{ inputs.DOTNET_PROJECT_NAME }}/runtimes/linux-x64/native/${{ inputs.BINARY_NAME }}-linux-x64 version -s | head -n 1 | sed 's/Version//g' | xargs)
+          BINARY_VERSION=$(./src/${{ inputs.DOTNET_PROJECT_NAME }}/runtimes/linux-x64/native/${{ inputs.BINARY_NAME }}-linux-x64 ${{ inputs.VERSION_ARGS }})
           echo "BINARY_VERSION=$BINARY_VERSION" >> $GITHUB_ENV
       - name: ✍🏻 Create PR
         uses: peter-evans/create-pull-request@v7
