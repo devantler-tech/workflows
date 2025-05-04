@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  auto-approve:
+  auto-merge:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' || github.actor == 'botantler-tech[bot]'
     steps:
