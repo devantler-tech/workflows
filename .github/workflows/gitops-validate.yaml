@@ -1,4 +1,4 @@
-name: GitOps Lint
+name: GitOps Validate
 
 on:
   workflow_call:
@@ -16,6 +16,6 @@ jobs:
           curl -L -o ksail https://github.com/devantler-tech/ksail/releases/download/$version/ksail-linux-amd64
           chmod +x ksail
           sudo mv ksail /usr/local/bin/ksail
-      - name: 🧹 Lint GitOps cluster configuration
+      - name: 🧹 Validate GitOps cluster configuration
         run: |
-          ksail lint
+          ksail validate
