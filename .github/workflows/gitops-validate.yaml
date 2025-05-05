@@ -6,7 +6,7 @@ on:
   merge_group:
 
 jobs:
-  lint:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: 📑 Checkout
