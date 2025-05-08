@@ -19,6 +19,7 @@ on:
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.DEPLOYMENT_ENV }}
     steps:
       - name: ⚙️ Setup flux
         uses: fluxcd/flux2/action@main
@@ -69,6 +70,7 @@ jobs:
 
   push-to-oci:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.DEPLOYMENT_ENV }}
     needs:
       - bootstrap
     steps:
@@ -92,6 +94,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.DEPLOYMENT_ENV }}
     needs:
       - push-to-oci
     steps:
