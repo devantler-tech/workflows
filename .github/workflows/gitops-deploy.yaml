@@ -1,0 +1,108 @@
+name: GitOps Test
+
+on:
+  workflow_call:
+    secrets:
+      KUBE_CONFIG:
+        required: true
+        description: "Kubernetes config file"
+      SOPS_AGE_KEY:
+        required: true
+        description: "Age key for SOPS"
+    inputs:
+      DEPLOYMENT_ENV:
+        type: string
+        required: true
+        default: dev
+        description: "Deployment environment (dev, prod)"
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⚙️ Setup flux
+        uses: fluxcd/flux2/action@main
+      - name: ⚙️ Set kubernetes context
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      - name: ⚙️ Install Cilium
+        run: |
+          helm repo add cilium https://helm.cilium.io/
+          helm repo update
+          helm upgrade --install \
+              cilium \
+              cilium/cilium \
+              --namespace kube-system \
+              --set ipam.mode=kubernetes \
+              --set kubeProxyReplacement=true \
+              --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
+              --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
+              --set cgroup.autoMount.enabled=false \
+              --set cgroup.hostRoot=/sys/fs/cgroup \
+              --set k8sServiceHost=localhost \
+              --set k8sServicePort=7445 \
+              --set=gatewayAPI.enabled=true \
+              --set=gatewayAPI.enableAlpn=true \
+              --set=gatewayAPI.enableAppProtocol=true
+      - name: ⚙️ Install Flux
+        run: |
+          flux check --pre
+          flux install
+      - name: 🔐 Create secret for SOPS
+        uses: azure/k8s-create-secret@v5
+        with:
+          secret-type: generic
+          secret-name: sops-age
+          namespace: flux-system
+          string-data: '{ "sops.agekey": "${{ secrets.SOPS_AGE_KEY }}" }'
+      - name: 🔁 Create OCI Source and Kustomization
+        run: |
+          flux create source oci flux-system \
+            --url=oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }} \
+            --tag=latest
+          flux create kustomization flux-system \
+            --source=OCIRepository/flux-system \
+            --path=clusters/${{ inputs.DEPLOYMENT_ENV }}/ \
+            --prune=true
+
+  push-to-oci:
+    runs-on: ubuntu-latest
+    needs:
+      - bootstrap
+    steps:
+      - name: 📑 Checkout
+        uses: actions/checkout@v4
+      - name: ⚙️ Setup flux
+        uses: fluxcd/flux2/action@main
+      - name: 🗳️ Push to GHCR OCI
+        run: |
+          flux push artifact oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }}:${{ github.sha }} \
+            --path=./k8s \
+            --source="$(git config --get remote.origin.url)" \
+            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
+            --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+          flux tag artifact oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }}:${{ github.sha }} \
+            --tag ${{ github.ref_name }} \
+            --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+          flux tag artifact oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }}:${{ github.sha }} \
+            --tag latest \
+            --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - push-to-oci
+    steps:
+      - name: ⚙️ Install flux
+        uses: fluxcd/flux2/action@main
+      - name: 🔨 Create kubeconfig
+        run: |
+          mkdir ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+          export KUBECONFIG=~/.kube/config
+          export KUBE_CONFIG_PATH=~/.kube/config
+      - name: 🔁 Reconcile
+        run: flux reconcile source oci flux-system
