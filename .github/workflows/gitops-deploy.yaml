@@ -46,7 +46,8 @@ jobs:
               --set k8sServicePort=7445 \
               --set=gatewayAPI.enabled=true \
               --set=gatewayAPI.enableAlpn=true \
-              --set=gatewayAPI.enableAppProtocol=true
+              --set=gatewayAPI.enableAppProtocol=true \
+              --wait
       - name: ⚙️ Install Flux
         run: |
           flux check --pre
