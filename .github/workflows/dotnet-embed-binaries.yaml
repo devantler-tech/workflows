@@ -32,7 +32,7 @@ on:
 
 
 permissions:
-  labels: write
+  issues: write
 
 jobs:
   embed-binaries:
