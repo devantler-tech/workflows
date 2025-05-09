@@ -16,6 +16,10 @@ on:
         default: dev
         description: "Deployment environment (dev, prod)"
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
