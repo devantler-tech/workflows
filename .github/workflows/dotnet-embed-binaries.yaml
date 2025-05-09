@@ -31,7 +31,8 @@ on:
         description: The passphrase for the private GPG key
 
 
-permissions: {}
+permissions:
+  labels: write
 
 jobs:
   embed-binaries:
