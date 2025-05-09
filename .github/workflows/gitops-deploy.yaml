@@ -117,4 +117,7 @@ jobs:
           export KUBECONFIG=~/.kube/config
           export KUBE_CONFIG_PATH=~/.kube/config
       - name: 🔁 Reconcile
-        run: flux reconcile source oci flux-system
+        run: |
+          flux reconcile source oci flux-system
+          flux suspend kustomization --all
+          flux resume kustomization --all
