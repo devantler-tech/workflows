@@ -69,8 +69,6 @@ jobs:
   push-to-oci:
     runs-on: ubuntu-latest
     environment: ${{ inputs.DEPLOYMENT_ENV }}
-    needs:
-      - bootstrap
     steps:
       - name: 📑 Checkout
         uses: actions/checkout@v4
