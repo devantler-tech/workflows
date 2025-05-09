@@ -48,6 +48,9 @@ jobs:
               --set cgroup.hostRoot=/sys/fs/cgroup \
               --set k8sServiceHost=localhost \
               --set k8sServicePort=7445 \
+              --set=gatewayAPI.enabled=true \
+              --set=gatewayAPI.enableAlpn=true \
+              --set=gatewayAPI.enableAppProtocol=true
               --wait
       - name: ⚙️ Install Flux
         run: |
