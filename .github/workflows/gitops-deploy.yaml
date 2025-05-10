@@ -124,4 +124,9 @@ jobs:
           context=$(kubectl config current-context)
           echo "context=$context" >> $GITHUB_OUTPUT
       - name: 🔁 Reconcile
-        run: ksail update --context ${{ steps.get-context.outputs.context }} --validate false --publish false
+        run: |
+          ksail update \
+            --context ${{ steps.get-context.outputs.context }} \
+            --deployment-tool Flux \
+            --validate false \
+            --publish false
