@@ -122,6 +122,6 @@ jobs:
           export KUBECONFIG=~/.kube/config
           export KUBE_CONFIG_PATH=~/.kube/config
           context=$(kubectl config current-context)
-          echo "::set-output name=context::$context"
+          echo "context=$context" >> $GITHUB_OUTPUT
       - name: 🔁 Reconcile
         run: ksail update --context ${{ steps.get-context.outputs.context }} --validate false --publish false
