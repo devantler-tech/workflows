@@ -107,17 +107,21 @@ jobs:
       - bootstrap
       - push-to-oci
     steps:
-      - name: ⚙️ Install flux
-        uses: fluxcd/flux2/action@main
+      - name: ⤵️ Install KSail
+        run: |
+          version=$(curl -s https://api.github.com/repos/devantler-tech/ksail/releases/latest | jq -r .tag_name)
+          curl -L -o ksail https://github.com/devantler-tech/ksail/releases/download/$version/ksail-linux-amd64
+          chmod +x ksail
+          sudo mv ksail /usr/local/bin/ksail
       - name: 🔨 Create kubeconfig
+        id: get-context
         run: |
           mkdir ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
           export KUBECONFIG=~/.kube/config
           export KUBE_CONFIG_PATH=~/.kube/config
+          context=$(kubectl config current-context)
+          echo "::set-output name=context::$context"
       - name: 🔁 Reconcile
-        run: |
-          flux reconcile source oci flux-system
-          flux suspend kustomization --all
-          flux resume kustomization --all
+        run: ksail update --context ${{ steps.get-context.outputs.context }} --validate false --publish false
