@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.event_name, 'pull_request') && (github.actor == 'dependabot[bot]' || github.actor == 'botantler-tech[bot]' || github.actor == 'devantler')
     steps:
+      - name: Generate GitHub App Token
+        uses: tibdex/github-app-token@v2
+        id: generate-token
+        with:
+          app_id: ${{ vars.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: 📑 Checkout
         uses: actions/checkout@v4
       - name: ✅ Approve pull request
@@ -22,4 +28,4 @@ jobs:
       - name: 🤖 Enable auto-merge
         run: gh pr merge --auto --squash ${{ github.event.number }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
