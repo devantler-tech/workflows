@@ -3,6 +3,7 @@ name: Image Lint
 on:
   workflow_call:
   pull_request:
+  merge_group:
 
 jobs:
   lint:

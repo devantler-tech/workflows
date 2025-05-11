@@ -5,6 +5,7 @@ on:
       CODECOV_TOKEN:
         required: true
   pull_request:
+  merge_group:
 
 jobs:
   test:
