@@ -69,13 +69,22 @@ jobs:
           string-data: '{ "sops.agekey": "${{ secrets.SOPS_AGE_KEY }}" }'
       - name: 🔁 Create OCI Source and Kustomization
         run: |
-          flux create source oci flux-system \
-            --url=oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }} \
-            --tag=latest
-          flux create kustomization flux-system \
-            --source=OCIRepository/flux-system \
-            --path=clusters/${{ inputs.DEPLOYMENT_ENV }}/ \
-            --prune=true
+          if ! kubectl get ocirepositories flux-system -n flux-system > /dev/null 2>&1; then
+            flux create source oci flux-system \
+              --url=oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }} \
+              --tag=latest
+          else
+            echo "OCI source 'flux-system' already exists. Skipping creation."
+          fi
+
+          if ! kubectl get kustomizations flux-system -n flux-system > /dev/null 2>&1; then
+            flux create kustomization flux-system \
+              --source=OCIRepository/flux-system \
+              --path=clusters/${{ inputs.DEPLOYMENT_ENV }}/ \
+              --prune=true
+          else
+            echo "Kustomization 'flux-system' already exists. Skipping creation."
+          fi
 
   push-to-oci:
     runs-on: ubuntu-latest
