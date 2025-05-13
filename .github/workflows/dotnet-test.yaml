@@ -30,6 +30,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9
+      - name: Add GitHub Packages as NuGet Source
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
       - name: 🧪 Test
         run: dotnet test --collect:"XPlat Code Coverage" --logger "console;verbosity=detailed"
       - name: 📄 Get Coverage Files
