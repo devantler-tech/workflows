@@ -20,6 +20,11 @@ jobs:
           curl -L -o ksail https://github.com/devantler-tech/ksail/releases/download/$version/ksail-linux-amd64
           chmod +x ksail
           sudo mv ksail /usr/local/bin/ksail
+      - name: 🌐 Add hosts
+        run: |
+          if [ -f ./hosts ]; then
+            sudo tee -a /etc/hosts < ./hosts
+          fi
       - name: 🔑 Import Age key
         env:
           KSAIL_SOPS_KEY: ${{ secrets.KSAIL_SOPS_KEY }}
