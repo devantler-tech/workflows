@@ -29,13 +29,13 @@ jobs:
           sudo mv ksail /usr/local/bin/ksail
       - name: 🌐 Add hosts
         run: |
-          if [ -f ${{ inputs.HOSTS_FILE }} ]; then
-            sudo tee -a /etc/hosts < ${{ inputs.HOSTS_FILE }}
+          if [ -f "${{ inputs.HOSTS_FILE || vars.HOSTS_FILE }}" ]; then
+            sudo tee -a /etc/hosts < "${{ inputs.HOSTS_FILE || vars.HOSTS_FILE }}"
           fi
       - name: 🔐 Install root CA
         run: |
-          if [ -f ${{ inputs.ROOT_CA_CERT_FILE }} ]; then
-            sudo cp ${{ inputs.ROOT_CA_CERT_FILE }} /usr/local/share/ca-certificates/root-ca.crt
+          if [ -f "${{ inputs.ROOT_CA_CERT_FILE || vars.ROOT_CA_CERT_FILE }}" ]; then
+            sudo cp "${{ inputs.ROOT_CA_CERT_FILE || vars.ROOT_CA_CERT_FILE }}" /usr/local/share/ca-certificates/root-ca.crt
             sudo update-ca-certificates
           fi
       - name: 🔑 Import Age key
