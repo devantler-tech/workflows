@@ -5,6 +5,13 @@ on:
     secrets:
       KSAIL_SOPS_KEY:
         required: false
+    inputs:
+      HOSTS_FILE:
+        required: false
+        type: string
+      ROOT_CA_CERT_FILE:
+        required: false
+        type: string
   pull_request:
   merge_group:
 
@@ -22,8 +29,14 @@ jobs:
           sudo mv ksail /usr/local/bin/ksail
       - name: 🌐 Add hosts
         run: |
-          if [ -f ./hosts ]; then
-            sudo tee -a /etc/hosts < ./hosts
+          if [ -f ${{ inputs.HOSTS_FILE }} ]; then
+            sudo tee -a /etc/hosts < ${{ inputs.HOSTS_FILE }}
+          fi
+      - name: 🔐 Install root CA
+        run: |
+          if [ -f ${{ inputs.ROOT_CA_CERT_FILE }} ]; then
+            sudo cp ${{ inputs.ROOT_CA_CERT_FILE }} /usr/local/share/ca-certificates/root-ca.crt
+            sudo update-ca-certificates
           fi
       - name: 🔑 Import Age key
         env:
