@@ -1,5 +1,6 @@
 name: "TODOs"
-permissions: {}
+permissions:
+  issues: write
 on:
   workflow_call:
     secrets:
@@ -18,7 +19,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v4
       - uses: alstr/todo-to-issue-action@v5
-        env:
+        with:
           AUTO_ASSIGN: true
           CLOSE_ISSUES: true
           PROJECT: organization/devantler-tech/5
