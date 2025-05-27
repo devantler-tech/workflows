@@ -22,5 +22,4 @@ jobs:
         with:
           AUTO_ASSIGN: true
           CLOSE_ISSUES: true
-          PROJECT: organization/devantler-tech/5
           PROJECTS_SECRET: ${{ steps.app-token.outputs.token }}
