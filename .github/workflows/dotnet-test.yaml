@@ -34,7 +34,9 @@ jobs:
           token: ${{ steps.generate-token.outputs.token }}
       - name: 📦 Install dependency
         uses: jaxxstorm/action-install-gh-release@v1.10.0
-        if: ${{ inputs.DEPENDENCY != '' }}
+        env:
+          DEPENDENCY: ${{ inputs.DEPENDENCY }}
+        if: ${{ env.DEPENDENCY != '' }}
         with:
           repo: ${{ inputs.DEPENDENCY }}
       - name: ⚙️ Setup .NET
