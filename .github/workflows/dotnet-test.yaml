@@ -6,6 +6,10 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: true
+    inputs:
+      DEPENDENCY:
+        type: string
+        description: The GitHub repo in which the binary is hosted
   pull_request:
   merge_group:
 
@@ -28,6 +32,11 @@ jobs:
         with:
           lfs: true
           token: ${{ steps.generate-token.outputs.token }}
+      - name: 📦 Install dependency
+        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        if: inputs.DEPENDENCY != ''
+        with:
+          repo: ${{ inputs.DEPENDENCY }}
       - name: ⚙️ Setup .NET
         uses: actions/setup-dotnet@v4
         with:
