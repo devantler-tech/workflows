@@ -99,7 +99,7 @@ jobs:
             --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
             --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
             sanitized_tag=$(echo "${{ github.ref_name }}" | tr '/' '-')
-            flux tag artifact oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }}:${{ github.sha }} \
+          flux tag artifact oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }}:${{ github.sha }} \
             --tag "$sanitized_tag" \
             --creds=${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
           flux tag artifact oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }}:${{ github.sha }} \
