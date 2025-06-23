@@ -1,0 +1,14 @@
+name: Cleanup ghcr packages
+permissions:
+  packages: write
+on:
+  workflow_call:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          older-than: 1 year
+          keep-n-tagged: 10
