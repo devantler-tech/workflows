@@ -22,6 +22,8 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Create README Tree
         uses: RavelloH/readme-tree@v1.1.0
         with:
