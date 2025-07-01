@@ -1,0 +1,70 @@
+name: dotnet-test-action
+description: Test .NET solution or project
+inputs:
+  app_id:
+    description: GitHub App ID to generate a token
+    required: true
+  app_private_key:
+    description: Private key of the GitHub App to generate a token
+    required: true
+  github_token:
+    description: GitHub token to access the repository
+    required: true
+  codecov-token:
+    description: Token to upload code coverage to CodeCov
+runs:
+  using: "composite"
+  steps:
+    - name: Generate GitHub App Token
+      uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+      id: generate-token
+      with:
+        app_id: ${{ inputs.app_id }}
+        private_key: ${{ inputs.app_private_key }}
+    - name: 📑 Checkout
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        token: ${{ steps.generate-token.outputs.token }}
+    - name: ⚙️ Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9
+    - name: 🚚 Add GHCR as NuGet feed
+      run: |
+        dotnet nuget add source \
+          --username ${GITHUB_ACTOR} \
+          --password ${GITHUB_TOKEN} \
+          --store-password-in-clear-text \
+          --name github \
+          "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      shell: bash
+    - name: 🧪 Test
+      run: dotnet test --collect:"XPlat Code Coverage" --logger "console;verbosity=detailed"
+      shell: bash
+    - name: 📄 Get Coverage Files
+      id: get_coverage_files
+      if: matrix.os != 'windows-latest' && inputs.codecov-token != ''
+      run: |
+        coverage_files=$(find . -name 'coverage.cobertura.xml' -print0 | tr '\0' ',' | sed 's/,$//')
+        echo "COVERAGE_FILES=$coverage_files" >> "$GITHUB_OUTPUT"
+      shell: bash
+    - name: 📄 Get Coverage Files on Windows
+      id: get_coverage_files_windows
+      if: matrix.os == 'windows-latest' && inputs.codecov-token != ''
+      run: |
+        $coverage_files = Get-ChildItem -Path . -Recurse -Filter coverage.cobertura.xml -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }
+        $coverage_files = $coverage_files -join ','
+        echo "COVERAGE_FILES=$coverage_files" >> "$GITHUB_OUTPUT"
+      shell: pwsh
+    - name: 📄 Upload Code Coverage to CodeCov
+      if: inputs.codecov-token != ''
+      uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
+      with:
+        files: ${{ steps.get_coverage_files.outputs.COVERAGE_FILES }}
+        fail_ci_if_error: true
+      env:
+        CODECOV_TOKEN: ${{ inputs.codecov-token }}
