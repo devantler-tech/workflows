@@ -15,7 +15,7 @@ jobs:
       - name: 📑 Checkout
         uses: actions/checkout@v4
         with:
-          lfs: true
+          persist-credentials: false
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v4.3.0
         with:
