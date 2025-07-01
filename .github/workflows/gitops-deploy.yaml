@@ -115,10 +115,8 @@ jobs:
     steps:
       - name: ⤵️ Install KSail
         run: |
-          version=$(curl -s https://api.github.com/repos/devantler-tech/ksail/releases/latest | jq -r .tag_name)
-          curl -L -o ksail https://github.com/devantler-tech/ksail/releases/download/$version/ksail-linux-amd64
-          chmod +x ksail
-          sudo mv ksail /usr/local/bin/ksail
+          brew tap devantler-tech/formulas
+          brew install ksail
       - name: 🔨 Create kubeconfig
         id: get-context
         run: |
