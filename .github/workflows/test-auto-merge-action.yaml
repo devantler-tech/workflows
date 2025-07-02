@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  auto-merge:
+  test-auto-merge-action:
     runs-on: ubuntu-latest
     if: startsWith(github.event_name, 'pull_request') && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'botantler-tech[bot]' || github.event.pull_request.user.login == 'devantler')
     steps:
