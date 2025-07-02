@@ -1,4 +1,4 @@
-name: "Auto-merge"
+name: auto-merge-action
 description: "Composite action to approve and auto-merge PRs from specific bots/users"
 inputs:
   app_id:
