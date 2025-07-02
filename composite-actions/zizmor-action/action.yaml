@@ -1,0 +1,8 @@
+name: "Zizmor Security Analysis"
+description: "Run security analysis of GitHub Actions on your repository using zizmor 🌈"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run zizmor 🌈
+      uses: zizmorcore/zizmor-action@f52a838cfabf134edcbaa7c8b3677dde20045018 # v0.1.1
