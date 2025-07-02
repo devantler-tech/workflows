@@ -1,4 +1,4 @@
-name: Test - Zizmor Composite Action
+name: Test - zizmor-action
 
 on:
   push:
