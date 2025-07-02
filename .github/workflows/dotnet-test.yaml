@@ -22,7 +22,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Test .NET solution or project
-        uses: devantler-tech/github-actions/composite-actions/dotnet-test-action@main
+        uses: devantler-tech/github-actions/composite-actions/dotnet-test-action@b58c3a07e91dd91a5a39bc2108e88337805ca458 # main
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
