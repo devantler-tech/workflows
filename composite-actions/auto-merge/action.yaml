@@ -1,0 +1,33 @@
+name: "Auto-merge"
+description: "Composite action to approve and auto-merge PRs from specific bots/users"
+inputs:
+  app_id:
+    description: "GitHub App ID"
+    required: true
+  app_private_key:
+    description: "GitHub App Private Key"
+    required: true
+  github_token:
+    description: "GitHub Token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🔑 Generate GitHub App Token
+      uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+      id: app-token
+      with:
+        app_id: ${{ inputs.app_id }}
+        private_key: ${{ inputs.app_private_key }}
+
+    - name: ✅ Approve pull request
+      uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
+      with:
+        github-token: "${{ inputs.github_token }}"
+
+    - name: 🤖 Enable auto-merge
+      shell: bash
+      run: gh pr merge --auto --squash ${{ github.event.number }}
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
