@@ -12,20 +12,13 @@ inputs:
     required: true
   codecov-token:
     description: Token to upload code coverage to CodeCov
+  working-directory:
+    description: Directory to run the tests in
+    required: false
+    default: .
 runs:
   using: "composite"
   steps:
-    - name: Generate GitHub App Token
-      uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
-      id: generate-token
-      with:
-        app_id: ${{ inputs.app_id }}
-        private_key: ${{ inputs.app_private_key }}
-    - name: 📑 Checkout
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: false
-        token: ${{ steps.generate-token.outputs.token }}
     - name: ⚙️ Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -45,6 +38,7 @@ runs:
     - name: 🧪 Test
       run: dotnet test --collect:"XPlat Code Coverage" --logger "console;verbosity=detailed"
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
     - name: 📄 Get Coverage Files
       id: get_coverage_files
       if: matrix.os != 'windows-latest' && inputs.codecov-token != ''
@@ -52,6 +46,7 @@ runs:
         coverage_files=$(find . -name 'coverage.cobertura.xml' -print0 | tr '\0' ',' | sed 's/,$//')
         echo "COVERAGE_FILES=$coverage_files" >> "$GITHUB_OUTPUT"
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
     - name: 📄 Get Coverage Files on Windows
       id: get_coverage_files_windows
       if: matrix.os == 'windows-latest' && inputs.codecov-token != ''
@@ -60,6 +55,7 @@ runs:
         $coverage_files = $coverage_files -join ','
         echo "COVERAGE_FILES=$coverage_files" >> "$GITHUB_OUTPUT"
       shell: pwsh
+      working-directory: ${{ inputs.working-directory }}
     - name: 📄 Upload Code Coverage to CodeCov
       if: inputs.codecov-token != ''
       uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3

@@ -1,13 +1,10 @@
-name: Test .NET solution or project
+name: Test - dotnet-test-action
 permissions:
   packages: read
 on:
-  workflow_call:
-    secrets:
-      CODECOV_TOKEN:
-        required: true
+  push:
+    branches: ["main"]
   pull_request:
-  merge_group:
 
 jobs:
   test:
@@ -15,16 +12,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    if: github.event.pull_request.draft == false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Test .NET solution or project
-        uses: devantler-tech/github-actions/composite-actions/dotnet-test-action@b58c3a07e91dd91a5a39bc2108e88337805ca458 # main
+        uses: devantler-tech/github-actions/composite-actions/dotnet-test-action@9f610a89adae6fd6822da5461cc5e4044963d366 # v1.1.0
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+
