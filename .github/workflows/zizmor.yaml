@@ -2,6 +2,8 @@ name: Zizmor
 
 on:
   workflow_call:
+  pull_request:
+  merge_group:
 
 permissions: {}
 
