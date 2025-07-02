@@ -1,0 +1,12 @@
+name: Hadolint
+description: Lint Dockerfiles using Hadolint
+
+inputs: {}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Hadolint
+      uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+      with:
+        recursive: true
