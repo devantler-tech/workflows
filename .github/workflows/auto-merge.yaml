@@ -11,7 +11,7 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    if: startsWith(github.event_name, 'pull_request') && (github.actor == 'dependabot[bot]' || github.actor == 'botantler-tech[bot]' || github.actor == 'devantler')
+    if: startsWith(github.event_name, 'pull_request') && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'botantler-tech[bot]' || github.event.pull_request.user.login == 'devantler')
     steps:
       - name: Generate GitHub App Token
         uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
