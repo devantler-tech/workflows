@@ -18,10 +18,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Test .NET solution or project
-        uses: devantler-tech/github-actions/composite-actions/dotnet-test-action@9f610a89adae6fd6822da5461cc5e4044963d366 # v1.1.0
+        uses: ./composite-actions/dotnet-test-action
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          working-directory: .github/fixtures/dotnet-test-action
 
