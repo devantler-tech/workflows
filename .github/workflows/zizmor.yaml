@@ -21,4 +21,4 @@ jobs:
           persist-credentials: false
 
       - name: Run zizmor 🌈
-        uses: ./composite-actions/zizmor-action
+        uses: devantler-tech/github-actions/composite-actions/zizmor-action@a8f34bd9d1876705e326007885beaa5f8c5901d0 # v1.5.0
