@@ -137,4 +137,6 @@ jobs:
             --context ${{ steps.get-context.outputs.context }} \
             --deployment-tool Flux \
             --validate false \
-            --publish false
+            --publish false \
+            --timeout 10m
+
