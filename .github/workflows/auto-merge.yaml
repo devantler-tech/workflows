@@ -18,7 +18,7 @@ jobs:
         with:
           persist-credentials: false
       - name: 🧪 Run auto-merge-action
-        uses: devantler-tech/github-actions/composite-actions/auto-merge-action@b8298f5d8bb6d8b1d807c22ec9847889b1471858 # v1.5.2
+        uses: devantler-tech/github-actions/composite-actions/auto-merge-action@b64bde72c2682698d43f7995ae1743c1b095a593 # v1.5.3
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
