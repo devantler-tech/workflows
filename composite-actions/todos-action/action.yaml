@@ -1,0 +1,25 @@
+name: "todos-action"
+description: "A composite action to create GitHub issues from TODO comments"
+inputs:
+  APP_ID:
+    description: "GitHub App ID"
+    required: true
+  APP_PRIVATE_KEY:
+    description: "GitHub App Private Key"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Generate GitHub App Token
+      uses: actions/create-github-app-token@v2
+      id: app-token
+      with:
+        app-id: ${{ inputs.APP_ID }}
+        private-key: ${{ inputs.APP_PRIVATE_KEY }}
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - uses: alstr/todo-to-issue-action@v5
+      with:
+        AUTO_ASSIGN: true
+        CLOSE_ISSUES: true

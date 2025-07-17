@@ -1,0 +1,16 @@
+name: Test - todos-action
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  issues: write
+
+jobs:
+  create-issues-from-todos:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: ./composite-actions/todos-action
