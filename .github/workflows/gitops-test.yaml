@@ -51,10 +51,3 @@ jobs:
       - name: 🔥 Teardown cluster
         if: always()
         run: ksail down
-
-  deploy-dev:
-    if: github.event_name != 'merge_group'
-    uses: devantler-tech/github-actions/.github/workflows/gitops-deploy.yaml@main
-    secrets: inherit
-    with:
-      DEPLOYMENT_ENV: dev
