@@ -2,8 +2,10 @@ name: Zizmor
 
 on:
   workflow_call:
+  ### Required Workflow Triggers ###
   pull_request:
   merge_group:
+  ##################################
 
 permissions: {}
 

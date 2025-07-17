@@ -2,8 +2,10 @@ name: Auto-merge
 
 on:
   workflow_call:
+  ### Required Workflow Triggers ###
   pull_request:
   merge_group:
+  ##################################
 
 permissions:
   pull-requests: write
