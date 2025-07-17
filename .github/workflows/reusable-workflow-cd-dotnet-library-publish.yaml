@@ -27,5 +27,7 @@ jobs:
         shell: bash
         run: |
           dotnet tool install --global dotnet-releaser
-          dotnet-releaser run --nuget-token "${{secrets.NUGET_API_KEY}}" --github-token "${{secrets.GITHUB_TOKEN}}" dotnet-releaser.toml
-
+          dotnet-releaser run --nuget-token "${NUGET_API_KEY}" --github-token "${GITHUB_TOKEN}" dotnet-releaser.toml
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
