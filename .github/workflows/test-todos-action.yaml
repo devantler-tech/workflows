@@ -1,9 +1,6 @@
 name: 🧪 todos-action
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
 
 permissions:
