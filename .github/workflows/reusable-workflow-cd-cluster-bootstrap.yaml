@@ -1,0 +1,68 @@
+name: CD - Cluster Bootstrap (Cilium + Flux)
+
+on:
+  workflow_call:
+    secrets:
+      KUBE_CONFIG:
+        required: true
+        description: "Kubernetes config file"
+      SOPS_AGE_KEY:
+        required: true
+        description: "Age key for SOPS"
+    inputs:
+      DEPLOYMENT_ENV:
+        type: string
+        required: true
+        default: dev
+        description: "Deployment environment (dev, prod)"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.DEPLOYMENT_ENV }}
+    steps:
+      - name: ⚙️ Setup flux
+        uses: fluxcd/flux2/action@709b17ce59d184427c1395bc70f496ba528d3bee # v2.6.4
+
+      - name: ⚙️ Set kubernetes context
+        uses: azure/k8s-set-context@212a19233d93f03eceaac31ae5a1d1acf650b6ef # v4.0.1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: 🛠️ Install Cilium
+        uses: ./composite-actions/install-cilium-action
+
+      - name: 🛠️ Install Flux
+        uses: ./composite-actions/install-flux-action
+
+      - name: 🔐 Create secret for SOPS
+        uses: azure/k8s-create-secret@6e0ba8047235646753f2a3a3b359b4d0006ff218 # v5.0.1
+        with:
+          secret-type: generic
+          secret-name: sops-age
+          namespace: flux-system
+          string-data: '{ "sops.agekey": "${{ secrets.SOPS_AGE_KEY }}" }'
+
+      - name: 🔁 Create OCI Source and Kustomization
+        run: |
+          if ! kubectl get ocirepositories flux-system -n flux-system > /dev/null 2>&1; then
+            flux create source oci flux-system \
+              --url=oci://ghcr.io/${{ github.repository }}/manifests-${{ inputs.DEPLOYMENT_ENV }} \
+              --tag=latest
+          else
+            echo "OCI source 'flux-system' already exists. Skipping creation."
+          fi
+
+          if ! kubectl get kustomizations flux-system -n flux-system > /dev/null 2>&1; then
+            flux create kustomization flux-system \
+              --source=OCIRepository/flux-system \
+              --path=clusters/${{ inputs.DEPLOYMENT_ENV }}/ \
+              --prune=true
+          else
+            echo "Kustomization 'flux-system' already exists. Skipping creation."
+          fi

@@ -1,8 +1,11 @@
-name: Auto-merge (Deprecated)
+name: CI - Auto-merge
+
 on:
   workflow_call:
+  ### Required Workflow Triggers ###
   pull_request:
   merge_group:
+  ##################################
 
 permissions:
   pull-requests: write
@@ -14,11 +17,12 @@ jobs:
     if: startsWith(github.event_name, 'pull_request') && !github.event.pull_request.draft && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]' || github.event.pull_request.user.login == 'botantler[bot]' || github.event.pull_request.user.login == 'devantler' || github.event.pull_request.user.login == 'Copilot')
     steps:
       - name: 📑 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: 🧪 Run auto-merge-action
-        uses: devantler-tech/github-actions/composite-actions/auto-merge-action@f6c779a9be5a6ba8a831d98909d734f7af9127cc # v1.5.5
+
+      - name: 🔀 Auto-merge
+        uses: ./composite-actions/auto-merge-action
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
