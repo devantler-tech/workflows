@@ -12,12 +12,16 @@ on:
       ROOT_CA_CERT_FILE:
         required: false
         type: string
+  ### Required Workflow Triggers ###
   pull_request:
   merge_group:
+  ##################################
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Ignore Require Workflow runs
+    if: github.repository != 'devantler-tech/github-actions'
     steps:
       - name: 📑 Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
