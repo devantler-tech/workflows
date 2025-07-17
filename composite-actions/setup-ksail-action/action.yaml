@@ -1,0 +1,14 @@
+name: setup-ksail-action
+description: |
+  Installs KSail CLI via Homebrew
+
+runs:
+  using: "composite"
+  steps:
+    - name: 📦 Setup Homebrew
+      uses: Homebrew/actions/setup-homebrew@6c79ae0677a9b0b8046a936b4ada8980885eafb8 # main
+    - name: ⤵️ Install KSail
+      shell: bash
+      run: |
+        brew tap devantler-tech/formulas
+        brew install ksail

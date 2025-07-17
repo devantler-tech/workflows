@@ -1,0 +1,15 @@
+name: 🎉 Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions: {}
+
+
+jobs:
+  release:
+    uses: ./.github/workflows/reusable-workflow-release.yaml
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}

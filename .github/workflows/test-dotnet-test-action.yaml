@@ -1,4 +1,4 @@
-name: Test - dotnet-test-action
+name: 🧪 dotnet-test-action
 permissions:
   packages: read
 on:
@@ -13,11 +13,12 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: 📑 Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Test .NET solution or project
+
+      - name: 🧪 Run dotnet-test-action
         uses: ./composite-actions/dotnet-test-action
         with:
           app_id: ${{ vars.APP_ID }}

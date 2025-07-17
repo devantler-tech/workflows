@@ -1,4 +1,4 @@
-name: 🌈 Zizmor (Static Analysis for GitHub Actions)
+name: CI - GitOps Validate
 
 on:
   workflow_call:
@@ -7,22 +7,23 @@ on:
   merge_group:
   ##################################
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
-  zizmor:
+  validate:
     runs-on: ubuntu-latest
     # Ignore Require Workflow runs
     if: github.repository != 'devantler-tech/github-actions'
-    permissions:
-      security-events: write
-      contents: read # only needed for private repos
-      actions: read # only needed for private repos
     steps:
       - name: 📑 Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
 
-      - name: 🌈 Run Zizmor
-        uses: ./composite-actions/zizmor-action
+      - name: ⚙️ Setup KSail
+        uses: ./composite-actions/setup-ksail-action
+
+      - name: 🧹 Validate GitOps cluster configuration
+        run: |
+          ksail validate

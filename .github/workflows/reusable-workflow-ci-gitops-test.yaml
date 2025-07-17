@@ -1,5 +1,4 @@
-# TODO: Remove when references have been updated to `reusable-workflow-gitops-test`
-name: GitOps Test
+name: CI - GitOps Test (Flux)
 
 on:
   workflow_call:
@@ -13,42 +12,48 @@ on:
       ROOT_CA_CERT_FILE:
         required: false
         type: string
+  ### Required Workflow Triggers ###
   pull_request:
   merge_group:
+  ##################################
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Ignore Require Workflow runs
+    if: github.repository != 'devantler-tech/github-actions'
     steps:
       - name: 📑 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: 📦 Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@main
-      - name: ⤵️ Install KSail
-        run: |
-          brew tap devantler-tech/formulas
-          brew install ksail
+
+      - name: ⚙️ Setup KSail
+        uses: ./composite-actions/setup-ksail-action
+
       - name: 🌐 Add hosts
         run: |
           if [ -f "${{ inputs.HOSTS_FILE || vars.HOSTS_FILE }}" ]; then
             sudo tee -a /etc/hosts < "${{ inputs.HOSTS_FILE || vars.HOSTS_FILE }}"
           fi
+
       - name: 🔐 Install root CA
         run: |
           if [ -f "${{ inputs.ROOT_CA_CERT_FILE || vars.ROOT_CA_CERT_FILE }}" ]; then
             sudo cp "${{ inputs.ROOT_CA_CERT_FILE || vars.ROOT_CA_CERT_FILE }}" /usr/local/share/ca-certificates/root-ca.crt
             sudo update-ca-certificates
           fi
+
       - name: 🔑 Import Age key
         env:
           KSAIL_SOPS_KEY: ${{ secrets.KSAIL_SOPS_KEY }}
         if: ${{ env.KSAIL_SOPS_KEY != '' }}
         run: ksail secrets import "${{ secrets.KSAIL_SOPS_KEY }}"
-      - name: 🛥️🐳 Provision cluster
+
+      - name: 🚀 Provision cluster
         run: |
           ksail up
+
       - name: 🔥 Teardown cluster
         if: always()
         run: ksail down

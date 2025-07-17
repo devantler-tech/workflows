@@ -1,4 +1,4 @@
-name: Hadolint
+name: Dockerfile Lint Action
 description: Lint Dockerfiles using Hadolint
 
 inputs: {}
