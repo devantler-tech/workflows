@@ -9,5 +9,5 @@ permissions:
 
 jobs:
   auto-merge:
-    uses: ./reusable-workflows/auto-merge.yaml
+    uses: devantler-tech/github-actions/reusable-workflows/auto-merge.yaml@main
     secrets: inherit
