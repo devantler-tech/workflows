@@ -1,3 +1,4 @@
+# TODO: Migrate to composite action named `todos-action`
 name: "TODOs"
 
 on:

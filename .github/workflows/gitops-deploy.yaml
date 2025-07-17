@@ -1,3 +1,4 @@
+# TODO: Remove when references have been updated to `reusable-workflow-gitops-deploy`
 name: GitOps Test
 
 on:

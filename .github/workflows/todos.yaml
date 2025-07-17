@@ -1,3 +1,4 @@
+# TODO: Remove when `todos-action` composite action is created
 name: "TODOs"
 permissions:
   issues: write

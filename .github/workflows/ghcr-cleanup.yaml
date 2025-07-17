@@ -1,3 +1,4 @@
+# TODO: Migrate to a composite action named `ghcr-cleanup`
 name: Cleanup ghcr packages
 permissions:
   packages: write

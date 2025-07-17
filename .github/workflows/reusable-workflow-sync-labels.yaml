@@ -1,3 +1,4 @@
+# TODO: Migrate to composite action named `sync-labels-action`
 name: Sync labels
 
 on:

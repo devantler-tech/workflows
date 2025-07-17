@@ -1,3 +1,4 @@
+# TODO: Remove when `sync-labels-action` composite action is created
 name: Sync labels
 on:
   workflow_dispatch:

@@ -1,4 +1,5 @@
-name: GitOps Test
+# TODO: Split gitops deploy into a workflow and composite action named `gitops-flux-deploy`.
+name: CD - GitOps Deploy
 
 on:
   workflow_call:

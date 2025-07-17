@@ -1,3 +1,4 @@
+# TODO: Update to use `ksail` composite action
 name: GitOps Validate
 
 on:
