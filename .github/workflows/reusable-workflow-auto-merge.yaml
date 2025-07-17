@@ -1,6 +1,9 @@
 name: Auto-merge
+
 on:
   workflow_call:
+  pull_request:
+  merge_group:
 
 permissions:
   pull-requests: write
@@ -16,7 +19,7 @@ jobs:
         with:
           persist-credentials: false
       - name: 🧪 Run auto-merge-action
-        uses: ./composite-actions/auto-merge-action
+        uses: devantler-tech/github-actions/composite-actions/auto-merge-action@f6c779a9be5a6ba8a831d98909d734f7af9127cc # v1.5.5
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
