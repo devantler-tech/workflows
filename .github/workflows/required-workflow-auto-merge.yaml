@@ -10,3 +10,4 @@ permissions:
 jobs:
   auto-merge:
     uses: ./reusable-workflows/auto-merge.yaml
+    secrets: inherit
