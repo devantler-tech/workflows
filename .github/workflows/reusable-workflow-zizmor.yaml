@@ -12,6 +12,8 @@ permissions: {}
 jobs:
   zizmor:
     runs-on: ubuntu-latest
+    # Ignore Require Workflow runs
+    if: github.repository != 'devantler-tech/github-actions'
     permissions:
       security-events: write
       contents: read # only needed for private repos
