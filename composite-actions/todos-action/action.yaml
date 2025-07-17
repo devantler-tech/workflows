@@ -7,6 +7,9 @@ inputs:
   APP_PRIVATE_KEY:
     description: "GitHub App Private Key"
     required: true
+  PROJECT:
+    description: "GitHub Project to add issues to"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -19,7 +22,9 @@ runs:
     - uses: actions/checkout@v4
       with:
         persist-credentials: false
-    - uses: alstr/todo-to-issue-action@v5
+    - uses: alstr/todo-to-issue-action@c45b007d85c8edf3365b139a9d4c65793e7c674f # v5.1.13
       with:
         AUTO_ASSIGN: true
         CLOSE_ISSUES: true
+        PROJECT: ${{ inputs.PROJECT }}
+        PROJECTS_SECRET: ${{ steps.app-token.outputs.token }}

@@ -14,3 +14,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: ./composite-actions/todos-action
+        with:
+          APP_ID: ${{ vars.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          PROJECT: organization/devantler-tech/5
