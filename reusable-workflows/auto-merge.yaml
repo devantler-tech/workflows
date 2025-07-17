@@ -1,0 +1,23 @@
+name: Auto-merge
+on:
+  workflow_call:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event_name, 'pull_request') && !github.event.pull_request.draft && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]' || github.event.pull_request.user.login == 'botantler[bot]' || github.event.pull_request.user.login == 'devantler' || github.event.pull_request.user.login == 'Copilot')
+    steps:
+      - name: 📑 Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: 🧪 Run auto-merge-action
+        uses: ./composite-actions/auto-merge-action
+        with:
+          app_id: ${{ vars.APP_ID }}
+          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
