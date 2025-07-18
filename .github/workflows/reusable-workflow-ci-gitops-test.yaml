@@ -29,7 +29,7 @@ jobs:
           persist-credentials: false
 
       - name: ⚙️ Setup KSail
-        uses: ./composite-actions/setup-ksail-action
+        uses: devantler-tech/github-actions/composite-actions/setup-ksail-action@e2bd11618534558a19a1903468a9f1ba5daf90db # v1.8.3
 
       - name: 🌐 Add hosts
         run: |
