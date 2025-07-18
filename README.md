@@ -1,4 +1,4 @@
-# DevantlerTech GitHub Actions 🚀
+# DevantlerTech GitHub Actions - Composite Actions 🚀
 
 > [!NOTE]
 > To see DevantlerTech's Reusable Workflows, please visit the [devantler-tech/reusable-workflows](https://github.com/devantler-tech/reusable-workflows) repository.
