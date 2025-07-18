@@ -12,7 +12,8 @@ steps:
     uses: devantler-tech/github-actions/composite-actions/flux-gitops-deploy-action@{ref} # ref
     with:
       DEPLOYMENT_ENV: "dev"
-      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_DEV }}
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Inputs
@@ -21,6 +22,7 @@ steps:
 | ---------------- | ----- | ------- | -------- | ---------------------------------- |
 | `DEPLOYMENT_ENV` | Input | -       | ✅        | Deployment environment (dev, prod) |
 | `KUBE_CONFIG`    | Input | -       | ✅        | Kubeconfig for the target cluster  |
+| `GITHUB_TOKEN`    | Input | -       | ✅         | Token for accessing GHCR            |
 
 ---
 
