@@ -25,6 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.DEPLOYMENT_ENV }}
     steps:
+      - name: 📑 Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
       - name: ⚙️ Setup flux
         uses: fluxcd/flux2/action@709b17ce59d184427c1395bc70f496ba528d3bee # v2.6.4
 
