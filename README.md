@@ -1,6 +1,6 @@
 # DevantlerTech GitHub Actions 🚀
 
-Welcome to the DevantlerTech GitHub Actions repository! This repository contains reusable workflows and composite actions designed to streamline your CI/CD processes. I (@devantler) use these actions across all my personal projects, ensuring consistency and efficiency.
+Welcome to the DevantlerTech GitHub Actions repository! This repository contains [reusable workflows](#reusable-workflows) and [composite actions](#composite-actions) designed to streamline your CI/CD processes. I (@devantler) use these actions across all my personal projects, ensuring consistency and efficiency.
 
 The below diagram illustrates the relationship between reusable workflows, composite actions, and other GitHub Actions.
 
@@ -13,22 +13,6 @@ graph TD
   C --> F[Step 3]
   C --> G[Step 4]
 ```
-
-## Table of Contents <!-- omit in toc -->
-
-- [Reusable Workflows](#reusable-workflows)
-  - [CD - Cluster Bootstrap](#cd---cluster-bootstrap)
-  - [CD - .NET Application Publish](#cd---net-application-publish)
-  - [CD - .NET Library Publish](#cd---net-library-publish)
-  - [CD - GitOps Deploy](#cd---gitops-deploy)
-  - [CI - Auto Merge](#ci---auto-merge)
-  - [CI - .NET Test](#ci---net-test)
-  - [CI - GitOps Test](#ci---gitops-test)
-  - [CI - GitOps Validate](#ci---gitops-validate)
-  - [Release](#release)
-  - [TODOs](#todos)
-  - [Zizmor](#zizmor)
-- [Composite Actions](#composite-actions)
 
 ## Reusable Workflows
 
