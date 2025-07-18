@@ -1,0 +1,27 @@
+name: "TODOs"
+
+on:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+  push:
+    branches: [main]
+
+permissions:
+  issues: write
+jobs:
+  todos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📑 Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: 🧪 Run todos-action
+        uses: devantler-tech/github-actions/composite-actions/todos-action@8c19f8b4a1d88a7b675856dc940649fa538a88ef # v1.5.12
+        with:
+          APP_ID: ${{ vars.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          PROJECT: organization/devantler-tech/5
