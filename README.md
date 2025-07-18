@@ -36,6 +36,9 @@ graph TD
 
 ### CD - Cluster Bootstrap
 
+<details>
+<summary>Click to expand</summary>
+
 [.github/workflows/reusable-workflow-cd-cluster-bootstrap.yaml](.github/workflows/reusable-workflow-cd-cluster-bootstrap.yaml) is a workflow used to bootstrap a cluster on the DevantlerTech platform. It installs core components like Cilium and Flux.
 
 #### Usage
@@ -61,7 +64,12 @@ jobs:
 | `SOPS_AGE_KEY`   | Secret         | -       | ✅        | Age key for SOPS       |
 | `DEPLOYMENT_ENV` | Input (string) | `dev`   | ✅        | Deployment environment |
 
+</details>
+
 ### CD - .NET Application Publish
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-cd-dotnet-application-publish.yaml](.github/workflows/reusable-workflow-cd-dotnet-application-publish.yaml) is a workflow used to publish .NET applications.
 
@@ -81,7 +89,12 @@ jobs:
 | --------------- | ------ | ------- | -------- | ------------- |
 | `NUGET_API_KEY` | Secret | -       | ✅        | NuGet API key |
 
+</details>
+
 ### CD - .NET Library Publish
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-cd-dotnet-library-publish.yaml](.github/workflows/reusable-workflow-cd-dotnet-library-publish.yaml) is a workflow used to publish .NET libraries to NuGet and GHCR.
 
@@ -101,7 +114,12 @@ jobs:
 | --------------- | ------ | ------- | -------- | ------------- |
 | `NUGET_API_KEY` | Secret | -       | ✅        | NuGet API key |
 
+</details>
+
 ### CD - GitOps Deploy
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-cd-gitops-deploy.yaml](.github/workflows/reusable-workflow-cd-gitops-deploy.yaml) is a workflow used to deploy applications using GitOps with Flux.
 
@@ -126,7 +144,12 @@ jobs:
 | `SOPS_AGE_KEY`   | Secret         | -       | ✅        | Age key for SOPS       |
 | `DEPLOYMENT_ENV` | Input (string) | `dev`   | ✅        | Deployment environment |
 
+</details>
+
 ### CI - Auto Merge
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-ci-auto-merge.yaml](.github/workflows/reusable-workflow-ci-auto-merge.yaml) is a workflow that automatically merges pull requests from trusted bots and maintainers.
 
@@ -138,7 +161,12 @@ jobs:
     uses: devantler-tech/github-actions/.github/workflows/reusable-workflow-ci-auto-merge.yaml@{ref} # ref
 ```
 
+</details>
+
 ### CI - .NET Test
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-ci-dotnet-test.yaml](.github/workflows/reusable-workflow-ci-dotnet-test.yaml) is a workflow used to test .NET solutions or projects across multiple operating systems.
 
@@ -158,7 +186,12 @@ jobs:
 | --------------- | ------ | ------- | -------- | ------------- |
 | `CODECOV_TOKEN` | Secret | -       | ✅        | Codecov token |
 
+</details>
+
 ### CI - GitOps Test
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-ci-gitops-test.yaml](.github/workflows/reusable-workflow-ci-gitops-test.yaml) is a workflow used to test GitOps configurations with Flux.
 
@@ -183,7 +216,12 @@ jobs:
 | `HOSTS_FILE`        | Input (string) | -       | ❌        | Path to hosts file for testing   |
 | `ROOT_CA_CERT_FILE` | Input (string) | -       | ❌        | Path to root CA certificate file |
 
+</details>
+
 ### CI - GitOps Validate
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-ci-gitops-validate.yaml](.github/workflows/reusable-workflow-ci-gitops-validate.yaml) is a workflow used to validate GitOps cluster configurations.
 
@@ -195,7 +233,12 @@ jobs:
     uses: devantler-tech/github-actions/.github/workflows/reusable-workflow-ci-gitops-validate.yaml@{ref} # ref
 ```
 
+</details>
+
 ### Release
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-release.yaml](.github/workflows/reusable-workflow-release.yaml) is a workflow used to create releases using semantic-release.
 
@@ -215,7 +258,12 @@ jobs:
 | ----------------- | ------ | ------- | -------- | ---------------------- |
 | `APP_PRIVATE_KEY` | Secret | -       | ✅        | GitHub App private key |
 
+</details>
+
 ### TODOs
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-todos.yaml](.github/workflows/reusable-workflow-todos.yaml) is a workflow used to scan for TODOs in code and create GitHub issues.
 
@@ -235,7 +283,12 @@ jobs:
 | ----------------- | ------ | ------- | -------- | ---------------------- |
 | `APP_PRIVATE_KEY` | Secret | -       | ✅        | GitHub App private key |
 
+</details>
+
 ### Zizmor
+
+<details>
+<summary>Click to expand</summary>
 
 [.github/workflows/reusable-workflow-zizmor.yaml](.github/workflows/reusable-workflow-zizmor.yaml) is a workflow used to perform static analysis on GitHub Actions workflows.
 
@@ -246,6 +299,8 @@ jobs:
   zizmor:
     uses: devantler-tech/github-actions/.github/workflows/reusable-workflow-zizmor.yaml@{ref} # ref
 ```
+
+</details>
 
 ## Composite Actions
 
