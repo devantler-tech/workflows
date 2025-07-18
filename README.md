@@ -1,6 +1,6 @@
 # DevantlerTech GitHub Actions 🚀
 
-Welcome to the DevantlerTech GitHub Actions repository! This repository contains [reusable workflows](#reusable-workflows) and [composite actions](#composite-actions) designed to streamline your CI/CD processes. I (@devantler) use these actions across all my personal projects, ensuring consistency and efficiency.
+Welcome to the DevantlerTech GitHub Actions repository! This repository contains [reusable workflows](#reusable-workflows) and [composite actions](#composite-actions) designed to streamline your CI/CD processes.  These actions are used across all DevantlerTech projects, ensuring consistency and efficiency.
 
 The below diagram illustrates the relationship between reusable workflows, composite actions, and other GitHub Actions.
 
