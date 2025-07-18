@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
 
       - name: 🧪 Run todos-action
-        uses: devantler-tech/github-actions/composite-actions/todos-action@8c19f8b4a1d88a7b675856dc940649fa538a88ef # v1.5.12
+        uses: devantler-tech/github-actions/composite-actions/todos-action@17ebd8ba893a97c3f7e9d983d6401dcad961c8d2 # v1.7.2
         with:
           APP_ID: ${{ vars.APP_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
