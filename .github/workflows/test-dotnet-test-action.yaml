@@ -19,7 +19,7 @@ jobs:
           persist-credentials: false
 
       - name: 🧪 Run dotnet-test-action
-        uses: ./composite-actions/dotnet-test-action
+        uses: ./dotnet-test-action
         with:
           app_id: ${{ vars.APP_ID }}
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}

@@ -19,4 +19,4 @@ jobs:
           persist-credentials: false
 
       - name: 🌈 Run zizmor-action
-        uses: ./composite-actions/zizmor-action
+        uses: ./zizmor-action

@@ -16,7 +16,7 @@ jobs:
           persist-credentials: false
 
       - name: 🧪 Run todos-action
-        uses: ./composite-actions/todos-action
+        uses: ./todos-action
         with:
           APP_ID: ${{ vars.APP_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
