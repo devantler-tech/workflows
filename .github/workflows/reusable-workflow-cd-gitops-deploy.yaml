@@ -31,7 +31,7 @@ jobs:
           persist-credentials: false
 
       - name: ⚙️ Setup flux
-        uses: fluxcd/flux2/action@709b17ce59d184427c1395bc70f496ba528d3bee # v2.6.4
+        uses: fluxcd/flux2/action@6bf37f6a560fd84982d67f853162e4b3c2235edb # v2.6.4
 
       - name: ⚙️ Setup KSail
         uses: ./composite-actions/setup-ksail-action
