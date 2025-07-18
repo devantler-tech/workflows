@@ -26,4 +26,4 @@ steps:
 
 ---
 
-[← Go back to main README](../../README.md#composite-actions)
+[← Go back to main README](../README.md#composite-actions)
