@@ -9,7 +9,7 @@ permissions:
 jobs:
   test-auto-merge-action:
     runs-on: ubuntu-latest
-    if: startsWith(github.event_name, 'pull_request') && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'botantler[bot]' || github.event.pull_request.user.login == 'devantler')
+    if: startsWith(github.event_name, 'pull_request') && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]' || github.event.pull_request.user.login == 'botantler[bot]' || github.event.pull_request.user.login == 'devantler')
     steps:
       - name: 📑 Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
