@@ -1,0 +1,64 @@
+name: Sync Cluster Policies
+
+on:
+  workflow_call:
+    secrets:
+      APP_PRIVATE_KEY:
+        description: 'GitHub App Private Key'
+        required: true
+    inputs:
+      KYVERNO_POLICIES_DIR:
+        description: 'Directory to sync Kyverno policies to'
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  sync-policies:
+    runs-on: ubuntu-latest
+    env:
+      KYVERNO_POLICIES_DIR: ${{ inputs.KYVERNO_POLICIES_DIR }}
+      KYVERNO_POLICIES_TEMP_DIR: /tmp/cluster-policies
+
+    steps:
+      - name: Generate GitHub App Token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+        id: generate-token
+        with:
+          app_id: ${{ vars.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Download latest Cluster Policies
+        run: |
+          git clone --filter=blob:none --sparse https://github.com/kyverno/policies ${{ env.KYVERNO_POLICIES_TEMP_DIR }}
+          cd ${{ env.KYVERNO_POLICIES_TEMP_DIR }}
+          git sparse-checkout set --no-cone '*/' ':!.*'
+      - name: Remove blacklisted policies
+        run: |
+          while IFS= read -r pattern; do
+          find ${{ env.KYVERNO_POLICIES_TEMP_DIR }} -path "${{ env.KYVERNO_POLICIES_TEMP_DIR }}/$pattern" -exec rm -rf {} +
+            done < .policyignore
+      - name: Copy Cluster Policies to the target directory
+        run: |
+          mkdir -p ${{ env.KYVERNO_POLICIES_DIR }}
+          rm -rf ${{ env.KYVERNO_POLICIES_DIR }}/*
+          cp -r ${{ env.KYVERNO_POLICIES_TEMP_DIR }}/* ${{ env.KYVERNO_POLICIES_DIR }} || echo "No policies found to copy."
+      - name: Create PR with changes
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: sync cluster policies"
+          title: "chore: sync cluster policies"
+          body: "Sync Cluster Policies from <https://github.com/kyverno/policies>"
+          branch: sync-cluster-policies
+          delete-branch: true
+          signoff: true
+          sign-commits: true
+          reviewers: devantler
+          assignees: devantler
+          token: ${{ steps.generate-token.outputs.token }}
+          branch-token: ${{ steps.generate-token.outputs.token }}

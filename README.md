@@ -244,6 +244,34 @@ jobs:
 
 </details>
 
+### Sync Cluster Policies
+
+<details>
+<summary>Click to expand</summary>
+
+[.github/workflows/reusable-workflow-sync-cluster-policies.yaml](.github/workflows/reusable-workflow-sync-cluster-policies.yaml) is a workflow used to sync upstream Kyverno policies to a target directory.
+
+#### Usage
+
+```yaml
+jobs:
+  sync-cluster-policies:
+    uses: devantler-tech/github-actions/.github/workflows/reusable-workflow-sync-cluster-policies.yaml@{ref} # ref
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+    with:
+      KYVERNO_POLICIES_DIR: policies/kyverno
+```
+
+#### Secrets and Inputs
+
+| Key                    | Type           | Default | Required | Description                           |
+| ---------------------- | -------------- | ------- | -------- | ------------------------------------- |
+| `APP_PRIVATE_KEY`      | Secret         | -       | ✅        | GitHub App private key                |
+| `KYVERNO_POLICIES_DIR` | Input (string) | -       | ✅        | Directory to sync Kyverno policies to |
+
+</details>
+
 ### TODOs
 
 <details>
