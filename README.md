@@ -5,7 +5,7 @@
 
 Welcome to the DevantlerTech GitHub Actions repository! This repository contains [composite actions](#composite-actions) designed to streamline your CI/CD processes.  These actions are used across all DevantlerTech projects, ensuring consistency and efficiency.
 
-The below diagram illustrates the relationship between GitHub Workflows and the GitHub Actions.
+The below diagram illustrates the relationship between GitHub Workflows and GitHub Actions.
 
 ```mermaid
 graph TD
