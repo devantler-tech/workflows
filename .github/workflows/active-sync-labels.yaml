@@ -18,4 +18,4 @@ jobs:
         with:
           persist-credentials: false
       - name: 🔄 Sync labels
-        uses: ./composite-actions/sync-labels-action
+        uses: ./sync-labels-action
