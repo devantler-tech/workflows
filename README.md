@@ -9,12 +9,11 @@ The below diagram illustrates the relationship between reusable workflows, compo
 
 ```mermaid
 graph TD
-  A[Reusable Workflow] --> B[Composite Action]
-  A --> C[GitHub Action]
-  B --> D[Step 1]
-  B --> E[Step 2]
-  C --> F[Step 3]
-  C --> G[Step 4]
+  A[Workflow] --> B[Reusable Workflow]
+  B --> C[GitHub Action]
+  C -.- D[**Composite Action**]
+  C -.- E[JavaScript Action]
+  C -.- F[Docker Container Action]
 ```
 
 ## Composite Actions
