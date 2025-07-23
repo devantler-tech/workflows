@@ -8,15 +8,20 @@ Welcome to the DevantlerTech GitHub Actions repository! This repository contains
 The below diagram illustrates the relationship between GitHub Workflows and GitHub Actions.
 
 ```mermaid
-graph TD
+---
+title: GitHub Actions Relationship Diagram
+---
+flowchart TD
   A[Workflows] --> B[Jobs]
-  B --> C[Reusable Workflows]
+  B --> C([Reusable Workflows])
   B --> D[Steps]
   C --> D
-  D --> E[GitHub Actions]
-  E -.- F[***Composite Actions***]
-  E -.- G[JavaScript Actions]
-  E -.- H[Docker Container Actions]
+  C --> B
+  D --> E[Actions]
+  E -.- F([***Composite Actions***])
+  F --> D
+  E -.- G([JavaScript Actions])
+  E -.- H([Docker Container Actions])
 ```
 
 ## Composite Actions
