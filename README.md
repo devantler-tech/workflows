@@ -9,12 +9,14 @@ The below diagram illustrates the relationship between GitHub Workflows and GitH
 
 ```mermaid
 graph TD
-  A[Workflows] --> B[Reusable Workflows]
-  A --> C
-  B --> C[GitHub Actions]
-  C -.- D[***Composite Actions***]
-  C -.- E[JavaScript Actions]
-  C -.- F[Docker Container Actions]
+  A[Workflows] --> B[Jobs]
+  B --> C[Reusable Workflows]
+  B --> D[Steps]
+  C --> D
+  D --> E[GitHub Actions]
+  E -.- F[***Composite Actions***]
+  E -.- G[JavaScript Actions]
+  E -.- H[Docker Container Actions]
 ```
 
 ## Composite Actions
